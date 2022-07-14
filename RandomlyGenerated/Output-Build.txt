@@ -1,0 +1,21 @@
+﻿Build started...
+1>------ Build started: Project: RandomlyGenerated, Configuration: Debug Win32 ------
+1>final.cpp
+1>C:\Workspace\OpenGL\RandomlyGenerated\final.cpp(65,18): warning C4244: 'initializing': conversion from 'time_t' to 'int', possible loss of data
+1>C:\Workspace\OpenGL\RandomlyGenerated\final.cpp(103,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+1>C:\Workspace\OpenGL\RandomlyGenerated\final.cpp(109,19): warning C4244: '=': conversion from 'time_t' to 'int', possible loss of data
+1>C:\Workspace\OpenGL\RandomlyGenerated\final.cpp(202,62): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+1>C:\Workspace\OpenGL\RandomlyGenerated\final.cpp(216,63): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+1>C:\Workspace\OpenGL\RandomlyGenerated\final.cpp(255,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+1>C:\Workspace\OpenGL\RandomlyGenerated\final.cpp(301,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+1>C:\Workspace\OpenGL\RandomlyGenerated\final.cpp(302,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+1>C:\Workspace\OpenGL\RandomlyGenerated\final.cpp(306,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+1>C:\Workspace\OpenGL\RandomlyGenerated\final.cpp(307,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+1>C:\Workspace\OpenGL\RandomlyGenerated\final.cpp(308,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+1>C:\Workspace\OpenGL\RandomlyGenerated\final.cpp(309,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+1>soil2-debug.lib(SOIL2.obj) : warning LNK4099: PDB 'soil2-debug.pdb' was not found with 'soil2-debug.lib(SOIL2.obj)' or at 'C:\Workspace\OpenGL\RandomlyGenerated\Debug\soil2-debug.pdb'; linking object as if no debug info
+1>soil2-debug.lib(image_DXT.obj) : warning LNK4099: PDB 'soil2-debug.pdb' was not found with 'soil2-debug.lib(image_DXT.obj)' or at 'C:\Workspace\OpenGL\RandomlyGenerated\Debug\soil2-debug.pdb'; linking object as if no debug info
+1>soil2-debug.lib(image_helper.obj) : warning LNK4099: PDB 'soil2-debug.pdb' was not found with 'soil2-debug.lib(image_helper.obj)' or at 'C:\Workspace\OpenGL\RandomlyGenerated\Debug\soil2-debug.pdb'; linking object as if no debug info
+1>RandomlyGenerated.vcxproj -> C:\Workspace\OpenGL\RandomlyGenerated\Debug\RandomlyGenerated.exe
+1>Done building project "RandomlyGenerated.vcxproj".
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
