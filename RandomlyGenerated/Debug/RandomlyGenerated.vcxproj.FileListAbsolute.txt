@@ -1,1 +1,2 @@
 C:\Workspace\OpenGL\RandomlyGenerated\Debug\RandomlyGenerated.exe
+C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\Debug\RandomlyGenerated.exe

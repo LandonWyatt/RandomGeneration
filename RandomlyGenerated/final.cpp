@@ -83,7 +83,8 @@ const int planeSize = 40;
 // 18 below is the number of X, Y, & Z coords in each block for two triangles
 const int numVertices = (planeSize * planeSize) * 18;
 vector<vector<float>> planeVertices = findVertices(planeSize);
-float vertices[numVertices];
+//float vertices[numVertices];
+float vertices[numVertices][3];
 
 void init(GLFWwindow* window) {
 	renderingProgram = createShaderProgram("vshaderSource.glsl", "fshaderSource.glsl");
@@ -136,20 +137,28 @@ void display(GLFWwindow* window, double currentTime) {
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
-	// TO-DO:
-	// - Each triangle will be color coded based on height, possibly by lowest height
-	//  - Green: < 0
-	//  - Blue: >= 0
+
 	colorLoc = glGetUniformLocation(renderingProgram, "color");
 
 	// i stops at this value similiar to numVertices, although, the planeSize^2 is multiplied
 	// by 6 instead as there is no need to calculate each X, Y, & Z value separately
 	for (int i = 0; i <= ((planeSize * planeSize) * 6); i = i + 3) {
+	//for (int i = 0; i < 1; i = i + 1) {
 		avgHeight = 0.0f;
+		
+		// set average height for each triangle	
+		avgHeight += (vertices[i][1] + vertices[i+1][1] + vertices[i+2][1])/3;
 
-		// Draw Triangles
-		glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(1.0f, 0.0f, 0.0f)));
-		glDrawArrays(GL_TRIANGLES, i, 3);
+		// Set color based on height
+		
+		if (avgHeight >= 0) {
+			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.0f, 0.8f, 0.0f)));
+		}
+		else {
+			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.8f)));
+		}
+		
+ 		glDrawArrays(GL_TRIANGLES, i, 3);
 		
 		// Draw Lines
 		glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
@@ -197,37 +206,27 @@ void setupVertices(void) {
 	for (int currZ = 0; currZ < planeSize; currZ++) {
 		// Go through each X-value on current Z-value
 		while (currX < planeSize) {
-			//cout << currX << ", " << currZ << endl;
 			for (int i = 0; i < (sizeof vertexRotations / sizeof vertexRotations[0]); i++) {
-				vertices[currLocation] = (currX + vertexRotations[i][0]) - planeSize / 2;
-				//cout << vertices[currLocation] << ", ";
-				currLocation++;
 
-				vertices[currLocation] = planeVertices[(currX + vertexRotations[i][0])][(currZ + vertexRotations[i][1])];
-				//cout << vertices[currLocation] << ", ";
-				currLocation++;
+				vertices[currLocation][0] = (currX + vertexRotations[i][0]) - planeSize / 2;
 
-				vertices[currLocation] = ((float)(currZ + vertexRotations[i][1])) - planeSize / 2;
-				//cout << vertices[currLocation] << endl;
+				vertices[currLocation][1] = planeVertices[(currX + vertexRotations[i][0])][(currZ + vertexRotations[i][1])];
+
+				vertices[currLocation][2] = ((float)(currZ + vertexRotations[i][1])) - planeSize / 2;
 				currLocation++;
 
 				// if it is the corner, repeat vertice to create second triangle
 				if (i == 2) {
-					vertices[currLocation] = (currX + vertexRotations[i][0]) - planeSize / 2;
-					//cout << vertices[currLocation] << ", ";
-					currLocation++;
 
-					vertices[currLocation] = planeVertices[(currX + vertexRotations[i][0])][(currZ + vertexRotations[i][1])];
-					//cout << vertices[currLocation] << ", ";
-					currLocation++;
+					vertices[currLocation][0] = (currX + vertexRotations[i][0]) - planeSize / 2;
 
-					vertices[currLocation] = ((float)(currZ + vertexRotations[i][1])) - planeSize / 2;
-					//cout << vertices[currLocation] << endl;
+					vertices[currLocation][1] = planeVertices[(currX + vertexRotations[i][0])][(currZ + vertexRotations[i][1])];
+
+					vertices[currLocation][2] = ((float)(currZ + vertexRotations[i][1])) - planeSize / 2;
 					currLocation++;
+					
 				}
 			}
-			//cout << "currLocation: " << currLocation << endl;
-			//cout << endl;
 
 			currX++;
 		}
@@ -268,7 +267,6 @@ vector<vector<float>> findVertices(int val) {
 				avgHeight = (planeVertices[i][j - 1] + planeVertices[i - 1][j - 1] + planeVertices[i - 1][j]) / 3;
 				planeVertices[i][j] = avgHeight + (rand() % maxVar - minVar) / 100.0f;
 			}
-			//cout << "[" << i << "][" << j << "] = " << planeVertices[i][j] << endl;
 		}
 	}
 
