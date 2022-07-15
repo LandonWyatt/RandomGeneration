@@ -75,6 +75,7 @@ GLuint skydome, grass, barnText, standingTallGrassImg, standingShortGrassImg, wh
 GLuint loadTexture(const char* texImagePath);
 void takeInput(GLFWwindow* window);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void setupVertices(void);
 vector<vector<float>> findVertices(int val);
 
@@ -83,8 +84,9 @@ const int planeSize = 40;
 // 18 below is the number of X, Y, & Z coords in each block for two triangles
 const int numVertices = (planeSize * planeSize) * 18;
 vector<vector<float>> planeVertices = findVertices(planeSize);
-//float vertices[numVertices];
 float vertices[numVertices][3];
+// Boolean to show lines
+bool showLines = true;
 
 void init(GLFWwindow* window) {
 	renderingProgram = createShaderProgram("vshaderSource.glsl", "fshaderSource.glsl");
@@ -99,6 +101,7 @@ void display(GLFWwindow* window, double currentTime) {
 	glUseProgram(renderingProgram);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetKeyCallback(window, key_callback);
 	takeInput(window);
 
 	// Find deltaTime for movement
@@ -143,7 +146,6 @@ void display(GLFWwindow* window, double currentTime) {
 	// i stops at this value similiar to numVertices, although, the planeSize^2 is multiplied
 	// by 6 instead as there is no need to calculate each X, Y, & Z value separately
 	for (int i = 0; i <= ((planeSize * planeSize) * 6); i = i + 3) {
-	//for (int i = 0; i < 1; i = i + 1) {
 		avgHeight = 0.0f;
 		
 		// set average height for each triangle	
@@ -163,8 +165,11 @@ void display(GLFWwindow* window, double currentTime) {
 		// Draw Lines
 		glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.0f)));
 		glLineWidth(1.5f);
-		glDrawArrays(GL_LINES, i, 2);
-		glDrawArrays(GL_LINES, i + 1, 2);
+		if (showLines) {
+			glDrawArrays(GL_LINES, i, 2);
+			glDrawArrays(GL_LINES, i + 1, 2);
+		}
+		
 	}
 }
 
@@ -200,29 +205,31 @@ void setupVertices(void) {
 	int currX = 0;
 	int currLocation = 0;
 
-	int vertexRotations[5][2] = { {0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0} };
+	int vertexRotations[5][2] = { {0, 0}, {0, 1}, {1, 1}, {0, 0}, {1, 0} };
 
 	// Go through each Z-value
 	for (int currZ = 0; currZ < planeSize; currZ++) {
 		// Go through each X-value on current Z-value
 		while (currX < planeSize) {
 			for (int i = 0; i < (sizeof vertexRotations / sizeof vertexRotations[0]); i++) {
-
+				// X-value
 				vertices[currLocation][0] = (currX + vertexRotations[i][0]) - planeSize / 2;
-
+				// Y-value
 				vertices[currLocation][1] = planeVertices[(currX + vertexRotations[i][0])][(currZ + vertexRotations[i][1])];
-
+				// Z-value
 				vertices[currLocation][2] = ((float)(currZ + vertexRotations[i][1])) - planeSize / 2;
+				// increment to next vertex
 				currLocation++;
 
 				// if it is the corner, repeat vertice to create second triangle
 				if (i == 2) {
-
+					// X-value
 					vertices[currLocation][0] = (currX + vertexRotations[i][0]) - planeSize / 2;
-
+					// Y-value
 					vertices[currLocation][1] = planeVertices[(currX + vertexRotations[i][0])][(currZ + vertexRotations[i][1])];
-
+					// Z-value
 					vertices[currLocation][2] = ((float)(currZ + vertexRotations[i][1])) - planeSize / 2;
+					// increment to next vertex
 					currLocation++;
 					
 				}
@@ -247,25 +254,23 @@ vector<vector<float>> findVertices(int val) {
 	val++;
 	vector<vector<float>> planeVertices(val, vector<float> (val, 0.0f));
 	
-	// TO-DO:
-	// - Set variation range lower and experiment
 	float avgHeight = 0;
 	int maxVar = 100, minVar = 50;
 	srand(time(NULL));
-	for (int i = 0; i < val; i++) {
-		for (int j = 0; j < val; j++) {
-			if (i == 0 && j == 0) {
+	for (int x = 0; x < val; x++) {
+		for (int z = 0; z < val; z++) {
+			if (x == 0 && z == 0) {
 				planeVertices[0][0] = (rand() % maxVar - minVar) / 100.0f;
 			}
-			else if (i == 0) {
-				planeVertices[0][j] = planeVertices[0][j - 1] + (rand() % maxVar - minVar) / 100.0f;
+			else if (x == 0) {
+				planeVertices[0][z] = planeVertices[0][z - 1] + (rand() % maxVar - minVar) / 100.0f;
 			}
-			else if (j == 0) {
-				planeVertices[i][0] = planeVertices[i - 1][0] + (rand() % maxVar - minVar) / 100.0f;
+			else if (z == 0) {
+				planeVertices[x][0] = planeVertices[x - 1][0] + (rand() % maxVar - minVar) / 100.0f;
 			}
 			else {
-				avgHeight = (planeVertices[i][j - 1] + planeVertices[i - 1][j - 1] + planeVertices[i - 1][j]) / 3;
-				planeVertices[i][j] = avgHeight + (rand() % maxVar - minVar) / 100.0f;
+				avgHeight = (planeVertices[x][z - 1] + planeVertices[x - 1][z - 1] + planeVertices[x - 1][z]) / 3;
+				planeVertices[x][z] = avgHeight + (rand() % maxVar - minVar) / 100.0f;
 			}
 		}
 	}
@@ -275,22 +280,34 @@ vector<vector<float>> findVertices(int val) {
 
 void takeInput(GLFWwindow* window) {
 	float cameraSpeed = 10.0f * deltaTime;
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) { // Camera Forward
 		cameraPos += cameraSpeed * cameraFront;
 	}
-	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) { // Camera Left
 		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 	}
-	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+	else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) { // Camera Back
 		cameraPos -= cameraSpeed * cameraFront;
 	}
-	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) { // Camera Right
 		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 	}
 	else if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 		glfwDestroyWindow(window);
 		glfwTerminate();
 		exit(EXIT_SUCCESS);
+	}
+}
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_R && action == GLFW_PRESS) { // Update landscape
+		planeVertices = findVertices(planeSize);
+		setupVertices();
+	}
+	else if (key == GLFW_KEY_F && action == GLFW_PRESS) { // toggle outlines
+		if (showLines) showLines = false;
+		else showLines = true;
 	}
 }
 
