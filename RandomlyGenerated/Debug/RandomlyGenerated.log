@@ -4,13 +4,13 @@ C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.
 C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(114,19): warning C4244: '=': conversion from 'time_t' to 'int', possible loss of data
 C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(216,65): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(227,66): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(261,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(318,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(319,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(323,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(324,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(325,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(326,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(259,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(316,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(317,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(321,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(322,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(323,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\final.cpp(324,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
 soil2-debug.lib(SOIL2.obj) : warning LNK4099: PDB 'soil2-debug.pdb' was not found with 'soil2-debug.lib(SOIL2.obj)' or at 'C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\Debug\soil2-debug.pdb'; linking object as if no debug info
 soil2-debug.lib(image_DXT.obj) : warning LNK4099: PDB 'soil2-debug.pdb' was not found with 'soil2-debug.lib(image_DXT.obj)' or at 'C:\Users\Landon Wyatt\Documents\GitHub\RandomGeneration\RandomlyGenerated\Debug\soil2-debug.pdb'; linking object as if no debug info

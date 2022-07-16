@@ -255,7 +255,7 @@ vector<vector<float>> findVertices(int val) {
 	vector<vector<float>> planeVertices(val, vector<float> (val, 0.0f));
 	
 	float avgHeight = 0;
-	int maxVar = 100, minVar = 50;
+	int maxVar = 80, minVar = 40;
 	srand(time(NULL));
 	for (int x = 0; x < val; x++) {
 		for (int z = 0; z < val; z++) {
