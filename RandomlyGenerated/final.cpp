@@ -80,10 +80,10 @@ void setupVertices(void);
 vector<vector<float>> findVertices(int val);
 
 // Values for plane vertices
-const int planeSize = 40;
+const int planeSize = 80;
 // 18 below is the number of X, Y, & Z coords in each block for two triangles
 const int numVertices = (planeSize * planeSize) * 18;
-vector<vector<float>> planeVertices = findVertices(planeSize);
+vector<vector<float>> yValues = findVertices(planeSize);
 float vertices[numVertices][3];
 // Boolean to show lines
 bool showLines = true;
@@ -152,9 +152,8 @@ void display(GLFWwindow* window, double currentTime) {
 		avgHeight += (vertices[i][1] + vertices[i+1][1] + vertices[i+2][1])/3;
 
 		// Set color based on height
-		
 		if (avgHeight >= 0) {
-			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.0f, 0.8f, 0.0f)));
+			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.0f, 0.7f, 0.0f)));
 		}
 		else {
 			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.8f)));
@@ -215,7 +214,7 @@ void setupVertices(void) {
 				// X-value
 				vertices[currLocation][0] = (currX + vertexRotations[i][0]) - planeSize / 2;
 				// Y-value
-				vertices[currLocation][1] = planeVertices[(currX + vertexRotations[i][0])][(currZ + vertexRotations[i][1])];
+				vertices[currLocation][1] = yValues[(currX + vertexRotations[i][0])][(currZ + vertexRotations[i][1])];
 				// Z-value
 				vertices[currLocation][2] = ((float)(currZ + vertexRotations[i][1])) - planeSize / 2;
 				// increment to next vertex
@@ -226,7 +225,7 @@ void setupVertices(void) {
 					// X-value
 					vertices[currLocation][0] = (currX + vertexRotations[i][0]) - planeSize / 2;
 					// Y-value
-					vertices[currLocation][1] = planeVertices[(currX + vertexRotations[i][0])][(currZ + vertexRotations[i][1])];
+					vertices[currLocation][1] = yValues[(currX + vertexRotations[i][0])][(currZ + vertexRotations[i][1])];
 					// Z-value
 					vertices[currLocation][2] = ((float)(currZ + vertexRotations[i][1])) - planeSize / 2;
 					// increment to next vertex
@@ -252,7 +251,7 @@ void setupVertices(void) {
 vector<vector<float>> findVertices(int val) {
 	// Increase by 1 to count number of vertices rather than squares
 	val++;
-	vector<vector<float>> planeVertices(val, vector<float> (val, 0.0f));
+	vector<vector<float>> yValues(val, vector<float> (val, 0.0f));
 	
 	float avgHeight = 0;
 	int maxVar = 80, minVar = 40;
@@ -260,22 +259,22 @@ vector<vector<float>> findVertices(int val) {
 	for (int x = 0; x < val; x++) {
 		for (int z = 0; z < val; z++) {
 			if (x == 0 && z == 0) {
-				planeVertices[0][0] = (rand() % maxVar - minVar) / 100.0f;
+				yValues[0][0] = (rand() % maxVar - minVar) / 100.0f;
 			}
 			else if (x == 0) {
-				planeVertices[0][z] = planeVertices[0][z - 1] + (rand() % maxVar - minVar) / 100.0f;
+				yValues[0][z] = yValues[0][z - 1] + (rand() % maxVar - minVar) / 100.0f;
 			}
 			else if (z == 0) {
-				planeVertices[x][0] = planeVertices[x - 1][0] + (rand() % maxVar - minVar) / 100.0f;
+				yValues[x][0] = yValues[x - 1][0] + (rand() % maxVar - minVar) / 100.0f;
 			}
 			else {
-				avgHeight = (planeVertices[x][z - 1] + planeVertices[x - 1][z - 1] + planeVertices[x - 1][z]) / 3;
-				planeVertices[x][z] = avgHeight + (rand() % maxVar - minVar) / 100.0f;
+				avgHeight = (yValues[x][z - 1] + yValues[x - 1][z - 1] + yValues[x - 1][z]) / 3;
+				yValues[x][z] = avgHeight + (rand() % maxVar - minVar) / 100.0f;
 			}
 		}
 	}
 
-	return planeVertices;
+	return yValues;
 }
 
 void takeInput(GLFWwindow* window) {
@@ -302,7 +301,7 @@ void takeInput(GLFWwindow* window) {
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_R && action == GLFW_PRESS) { // Update landscape
-		planeVertices = findVertices(planeSize);
+		yValues = findVertices(planeSize);
 		setupVertices();
 	}
 	else if (key == GLFW_KEY_F && action == GLFW_PRESS) { // toggle outlines
