@@ -144,7 +144,7 @@ void display(GLFWwindow* window, double currentTime) {
 	colorLoc = glGetUniformLocation(renderingProgram, "color");
 
 	// i stops at this value similiar to numVertices, although, the planeSize^2 is multiplied
-	// by 6 instead as there is no need to calculate each X, Y, & Z value separately
+	// multiplied by 6 instead as there is no need to calculate each X, Y, & Z value separately
 	for (int i = 0; i <= ((planeSize * planeSize) * 6); i = i + 3) {
 		avgHeight = 0.0f;
 		
@@ -152,12 +152,24 @@ void display(GLFWwindow* window, double currentTime) {
 		avgHeight += (vertices[i][1] + vertices[i+1][1] + vertices[i+2][1])/3;
 
 		// Set color based on height
-		if (avgHeight >= 0) {
-			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.0f, 0.7f, 0.0f)));
-		}
-		else {
+		if (avgHeight >= 3.0)      // Snow Caps
+			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.8f, 0.8f, 0.8f)));
+		else if (avgHeight >= 1.8) // Mountains
+			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.4f, 0.4f, 0.4f)));
+		else if (avgHeight >= 0.4) // Grass
+			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.0f, 0.5f, 0.0f)));
+		else if (avgHeight >= 0)   // Sand
+			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.8f, 0.8f, 0.0f)));
+		else if (avgHeight < -2.0) // Deep Ocean lvl.3
+			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.2f)));
+		else if (avgHeight < -1.5) // Deep Ocean lvl.2
+			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.2f)));
+		else if (avgHeight < -1.0) // Deep Ocean lvl.1
+			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.4f)));
+		else if (avgHeight < -0.6) // Ocean
+			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.4f)));
+		else					   // Coast
 			glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(0.0f, 0.0f, 0.8f)));
-		}
 		
  		glDrawArrays(GL_TRIANGLES, i, 3);
 		
@@ -203,6 +215,8 @@ int main(void) {
 void setupVertices(void) {
 	int currX = 0;
 	int currLocation = 0;
+
+	// Experiment with concept of starting in center as opposed to corner
 
 	int vertexRotations[5][2] = { {0, 0}, {0, 1}, {1, 1}, {0, 0}, {1, 0} };
 
@@ -254,7 +268,7 @@ vector<vector<float>> findVertices(int val) {
 	vector<vector<float>> yValues(val, vector<float> (val, 0.0f));
 	
 	float avgHeight = 0;
-	int maxVar = 80, minVar = 40;
+	int maxVar = 100, minVar = 50;
 	srand(time(NULL));
 	for (int x = 0; x < val; x++) {
 		for (int z = 0; z < val; z++) {
